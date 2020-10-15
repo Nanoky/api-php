@@ -82,25 +82,29 @@
 
     if ($method == 'PUT')
     {
-        $r_data = [];
-        parse_str(file_get_contents("php://input"), $r_data);
-
-        if (!empty($r_data))
+        if (!empty($uri[1]))
         {
-            $data = false;
+            $r_data = [];
+            parse_str(file_get_contents("php://input"), $r_data);
+            $r_data['id'] = $uri[1];
 
-            try {
-                $data = $db->set("UPDATE tester SET name=:name, firstname=:firstname, organization=:organization WHERE email=:email", $r_data);
-            } catch (Exception $e) {
-                respond(false, [], $e->getMessage());
-            }
-
-            if ($data)
+            if (!empty($r_data))
             {
-                respond(true);
-            }
+                $data = false;
 
-            respond(false, [], "Something wrong");
+                try {
+                    $data = $db->set("UPDATE tester SET name=:name, firstname=:firstname, organization=:organization WHERE email=:email", $r_data);
+                } catch (Exception $e) {
+                    respond(false, [], $e->getMessage());
+                }
+
+                if ($data)
+                {
+                    respond(true);
+                }
+
+                respond(false, [], "Something wrong");
+            }
         }
 
         respond(false, [], "Request data not found");
@@ -108,25 +112,28 @@
 
     if ($method == 'DELETE')
     {
-        $r_data = [];
-        parse_str(file_get_contents("php://input"), $r_data);
-
-        if (!empty($r_data))
+        if (!empty($uri[1]))
         {
-            $data = false;
+            $r_data = [];
+            $r_data['id'] = $uri[1];
 
-            try {
-                $data = $db->set("DELETE FROM tester WHERE email=:email", $r_data);
-            } catch (Exception $e) {
-                respond(false, [], $e->getMessage());
-            }
-
-            if ($data)
+            if (!empty($r_data))
             {
-                respond(true);
-            }
+                $data = false;
 
-            respond(false, [], "Something wrong");
+                try {
+                    $data = $db->set("DELETE FROM tester WHERE email=:email", $r_data);
+                } catch (Exception $e) {
+                    respond(false, [], $e->getMessage());
+                }
+
+                if ($data)
+                {
+                    respond(true);
+                }
+
+                respond(false, [], "Something wrong");
+            }
         }
 
         respond(false, [], "Request data not found");
