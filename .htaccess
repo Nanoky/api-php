@@ -1,3 +1,8 @@
+
+# HTID:15825636: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+php_value display_errors 1
+# DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:15825636:
+
 RewriteEngine on
 RewriteCond %{REQUEST_URI} "^(\/)"
 RewriteRule "(\/[a-zA-Z0-9])*" "route.php"
